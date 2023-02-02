@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Volte Rounded';
+  src: url('@/assets/fonts/VolteRounded-Regular.otf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Volte Rounded';
+  src: url('@/assets/fonts/VolteRounded-Medium.otf');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Volte Rounded';
+  src: url('@/assets/fonts/VolteRounded-Semibold.otf');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Volte Rounded';
+  src: url('@/assets/fonts/VolteRounded-Bold.otf');
+  font-weight: 700;
+}
+
+:root{
+  --primary: #334F92;
+  --secondary: #29B5B5;
+
+  --text-light: #ffffff;
+  --text-dark: #5A5A5C;
+  --text-primary: #334F92;
+
+  --place: #5A5A5C;
+
+  --bg-white: #ffffff;
+}
+
+html{
+  font-family: 'Volte Rounded';
+  @apply text-$text-light text-16px font-normal;
+  line-height: 22px;
+  overflow-x: hidden;
+}
+html,body,main, #__nuxt ,#__layout ,#body{
+  overflow-x: hidden;
+}
+
+p:not(.local){
+  @apply text-16px;
+  line-height: 22px;
+}
+
+h1{
+  @apply text-64px font-semibold text-center m-0;
+  line-height: 77px;
+}
+
+h2{
+  @apply text-36px font-semibold m-0;
+  line-height: 43px;
+}
+
+h3{
+  @apply text-28px font-semibold m-0;
+  line-height: 34px;
+}
+
+button {
+  transition: all 0.3s ease-in-out;
+
+  svg *{
+    transition: all 0.2s ease-in-out;
+  }
+
+
+  &:not(.not), .default_button {
+    @apply text-20px py-13px px-25px rounded-3xl
+           font-semibold text-center bg-$primary;
+    line-height: 24px;
+
+    &.small {
+      @apply text-16px py-8px px-12px;
+      line-height: 19px;
+    }
+
+    &:hover{
+      @apply bg-$text-light text-$primary;
+
+      svg *{
+        @apply fill-$primary;
+      }
+    }
+  }
+  &.not {
+    @apply bg-transparent p-0 m-0
+           text-$text-light text-16px font-medium
+           cursor-pointer;
+    font-family: 'Volte Rounded';
+    line-height: 22px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  h1{
+    @apply text-48px;
+    line-height: 57px;
+  }
+
+  h2{
+    @apply text-24px;
+    line-height: 28px;
+  }
+
+  h3{
+    @apply text-20px;
+    line-height: 24px;
+  }
+
+  button {
+    &:not(.not), .default_button {
+      @apply text-20px py-13px w-full px-0;
+      line-height: 24px;
+
+      &.small {
+        @apply py-7px w-max;
+      }
+      &:hover{
+        @apply bg-$primary text-$text-light;
+
+        svg *{
+          @apply fill-$text-light;
+        }
+      }
+    }
+  }
+}

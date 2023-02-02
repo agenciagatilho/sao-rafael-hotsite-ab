@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/seja-um-franqueado", {data:[{_img:{}}],fetch:{},mutations:[]});

@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/politica-de-privacidade", {data:[{_img:{}}],fetch:{},mutations:[]});
