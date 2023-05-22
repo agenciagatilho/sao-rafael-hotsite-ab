@@ -5,16 +5,9 @@
         <h2>Empreenda com garantia de sucesso!</h2>
         <p>Não perca a chance de fazer parte de uma das maiores franquias de farmácias do Sul do Brasil.</p>
       </div>
-      <hr>
-      <form id="sao-rafael-hotsite-ab-popup-saida" @submit="submit">
-        <h3>Saiba mais sobre como se tornar um franqueado:</h3>
-        <v-input id="name" placeholder="Nome:" />
-        <v-input id="email" type="email" placeholder="E-mail:" />
-        <v-input id="telphone" type="tel" placeholder="Telefone/WhatsApp:" :maxlength="15" mask="(##) ##### ####" />
-        <v-input id="city" placeholder="Estado/Cidade:" list="data-all-cities" />
-        <data-all-cities />
-        <button type="submit">Enviar</button>
-      </form>
+      <button @click="goToForm">Saiba mais sobre como se tornar um franqueado</button>
+
+      <button class="_close" @click="close">X</button>
     </div>
     <div class="_close" @click="close" />
   </div>
@@ -26,7 +19,8 @@ export default {
   data () {
     return {
       inputs: lang.inputs,
-      state: false
+      state: false,
+      persistState: false
     }
   },
   mounted () {
@@ -40,7 +34,9 @@ export default {
         clientY < 0 ||
         clientY > innerHeight
       ) {
-        this.state = true
+        if (!this.persistState) {
+          this.state = true
+        }
       }
     })
   },
@@ -48,33 +44,11 @@ export default {
     close () {
       this.state = false
     },
-    submit (e) {
-      e.preventDefault()
-      const form = e.target
-
-      const address = form.city.value.split('/')
-      const state = address[0]
-      const city = address[1]
-
-      const data = {
-        conversion_identifier: 'sao_rafael_hotsite_ab_popup_saida',
-        email: form.email.value,
-        name: form.name.value,
-        mobile_phone: form.telphone.value,
-        state,
-        city
-      }
-
-      this.$api.send(data).then((res) => {
-        if (res.ok) {
-          setTimeout(() => {
-            this.$router.push('obrigado')
-            form.reset()
-          }, 10)
-        } else {
-          this.$toast.set(`Erro: ${res.status} - ${res.type} ${res.statusText}`)
-        }
-      })
+    goToForm () {
+      const form = document.querySelector('#_v_want_to_be_franchisee')
+      scrollTo({ behavior: 'smooth', top: form.offsetTop - (form.offsetHeight / 2) })
+      this.persistState = true
+      this.close()
     }
   }
 }
@@ -86,15 +60,18 @@ export default {
             w-full h-full opacity-0 pointer-events-none
             flex items-center justify-center;
     font-family: 'Quicksand', sans-serif;
+    transition: opacity 0.15s ease-in-out;
 
     .__inner {
-      @apply max-w-770px h-700px max-h-90vh m-auto relative z-2
-              px-110px py-60px overflow-y-auto
+      @apply max-w-770px m-auto relative z-2
+              px-100px py-130px overflow-y-auto
               rounded-50px font-semibold bg-$secondary
-              flex flex-col gap-30px text-center justify-start
-              bg-center bg-cover;
+              flex flex-col gap-60px text-center justify-start
+              bg-center bg-cover
+              transform scale-125 origin-center;
       background-image: url('@/static/src/images/background_popup.png');
       box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s ease-in-out;
 
       >* {
         @apply my-auto;
@@ -102,41 +79,29 @@ export default {
 
       ._text {
         @apply flex flex-col gap-25px;
+
+        h2 {
+          @apply text-55px;
+          line-height: 60px;
+        }
+        p {
+          @apply text-20px;
+          line-height: 27px;
+        }
       }
 
-      hr {
-        @apply border-$primary;
+      button {
+        @apply text-22px px-26px;
+        line-height: 27px;
       }
 
-      form {
-        @apply flex flex-col gap-15px;
-
-        h3 {
-          @apply text-23px font-semibold;
-          line-height: 28px;
-        }
-
-        .input-box {
-          @apply h-39px text-$primary;
-          color: #344F91;
-
-          &#span_input_city {
-            @apply flex-col;
-            &::after {
-              content: 'De interesse de atuação.';
-              @apply text-$text-light text-left text-12px px-20px pt-2px;
-            }
-          }
-        }
-
-        button {
-          @apply py-8px mt-30px;
-          @apply uppercase;
-        }
+      ._close {
+        @apply  p-0 m-0 w-27px h-27px text-center bg-transparent text-$text-light
+                absolute top-40px right-40px;
       }
     }
 
-    ._close {
+    >._close {
       @apply absolute left-0 top-0 z-1
               w-full h-full;
       background: rgba(0, 0, 0, 0.6);
@@ -145,6 +110,10 @@ export default {
 
     &.active {
       @apply opacity-100 pointer-events-auto;
+
+      .__inner {
+        @apply scale-100;
+      }
     }
   }
 </style>
